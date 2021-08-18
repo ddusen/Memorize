@@ -10,15 +10,26 @@ import SwiftUI
 
 struct ContentView: View {
     var emojis = [ "🐳", "🐋", "🐬", "🦭", "🐟", "🐠", "🐡", "🦈", "🐙", "🐚", "🐌", "🦋", "🐛", "🐣", "🐤", "🐥", "🐦", "🐧", "🕊️", "🦅", "🦆", "🦢", "🦉", "🦤", "🪶", "🦩", "🦚", "🦜", "🐸", "🐊", "🐢", "🦎", "🐍", "🐲", "🐉", "🦕", "🦖"]
-    @State var emojisCount : Int = 5
+    @State var emojisCount : Int = 12
     
     var body: some View{
         VStack{
             HStack{
-                ForEach(emojis[0..<emojisCount], id: \.self){
-                    emoji in CardView(content: emoji)
-                }
+                Text("Memorize!")
+                    .font(.title)
+                    .foregroundColor(.black)
             }
+            ScrollView{
+                LazyVGrid(
+                    columns: [GridItem(.adaptive(minimum: 70, maximum: 80))],
+                    content: {
+                        ForEach(emojis[0..<emojisCount], id: \.self){
+                            emoji in CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
+                        }
+                    }
+                )
+            }
+            Spacer()
             HStack{
                 remove
                 Spacer()
@@ -60,10 +71,10 @@ struct CardView: View {
     
     var body: some View{
         ZStack{
-            let shape = RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+            let shape = RoundedRectangle(cornerRadius: 20)
             if isFaceUp {
                 shape.fill().foregroundColor(.white)
-                shape.stroke(lineWidth: 3.0)
+                shape.strokeBorder(lineWidth: 3.0)
                 Text(content).font(.largeTitle)
             } else {
                 shape.fill()
